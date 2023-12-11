@@ -1,0 +1,67 @@
+https://ninjassolutions.s3.amazonaws.com/0000000000005478.txt?AWSAccessKeyId=AKIATGJBH6DC6VFUL2NI&Expires=1693018074&Signature=ze8evxMyX1dC3kbeMmKZtVev53U%3D
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Bfs{
+
+    static boolean[] vis = new boolean[100001];
+    static List<List<Integer>> adjList = new ArrayList<List<Integer>>(100001);
+    static int[] dist = new int[100001];
+    static final int INF = 1000000000;
+
+    static void bfs(int src){
+
+        Queue<Integer> q = new LinkedList<>();
+        q.add(src);
+        dist[src] = 0;
+        vis[src] = true;
+
+        while(!q.isEmpty()){
+            int node = q.poll();
+
+            for(int v : adjList.get(node)){
+                if(vis[v] == false){
+                    dist[v] = dist[node] + 1;
+                    vis[v] = true;
+                    q.add(v);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int n , m , src , a , b;
+        Scanner scanner = new Scanner(System.in);
+
+        n = scanner.nextInt();
+        m = scanner.nextInt();
+        src = scanner.nextInt();
+
+        for(int i=1;i<=n+1;i++){
+            adjList.add(new ArrayList<>());
+        }
+
+        for(int i=1;i<=n;i++){
+            vis[i] = false;
+            dist[i] = INF;
+        }
+
+        for(int i=0;i<m;i++){
+            a = scanner.nextInt();
+            b = scanner.nextInt();
+
+            adjList.get(a).add(b);
+            adjList.get(b).add(a);
+        }
+
+        bfs(src);
+
+        for(int i=1;i<=n;i++){
+            System.out.println(dist[i]);
+        }
+
+    }
+}
